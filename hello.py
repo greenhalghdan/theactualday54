@@ -1,18 +1,37 @@
 from flask import Flask
 
-# app = Flask(__name__)
-# print(__name__)
-# @app.route("/")
-# def hello_world():
-#     return "<p>Hello, World!</p>"
-#
-# @app.route("/bye")
-# def say_bye():
-#     return "<p>good bye!</p>"
-#
-# # means we dont have to run  flask run from the termial
-# if __name__ == "__main__":
-#     app.run()
+app = Flask(__name__)
+print(__name__)
+@app.route("/")
+def hello_world():
+    return "<p>Hello, World!</p>"
+@app.route("/username/hello/<name>/<int:number>")
+def greet(name,number):
+    return f"hello {name}, you are {number} years old"
+
+def make_bold(function):
+    def wraper():
+        return "<b>" + function() + "</b>"
+    return wraper
+def make_em(function):
+    def wrapper():
+        return "<em>" + function() + "</em>"
+    return wrapper
+def make_underline(function):
+    def wrapper():
+        return "<u>" + function() + "</u>"
+    return wrapper
+
+@app.route("/bye")
+@make_bold
+@make_em
+@make_underline
+def say_bye():
+    return "<p>good bye!</p>"
+
+# means we dont have to run  flask run from the termial
+if __name__ == "__main__":
+    app.run(debug=True)
 
 #
 # ## ********Day 54 Start**********
@@ -88,38 +107,38 @@ from flask import Flask
 #     print("How are you?")
 # decorated_function = delay_decorator(say_greeting)
 # decorated_function()
-
-# end of lesson task:
-import time
-current_time = time.time()
-# print(current_time)
-
-def speed_calc_decorator(function):
-    def wrapper_function():
-        start = time.time()
-        function()
-        end = time.time()
-        print(f"{function.__name__} run time: {end-start}")
-    return wrapper_function
-
-def delay_decorator(function):
-    def wrapper_function():
-        start = time.time()
-        function()
-        end = time.time()
-        print(f"{function.__name__} run time: {end-start}")
-    return wrapper_function
-
-@speed_calc_decorator
-def fast_function():
-    for i in range(10000000):
-        i * i
-
-@speed_calc_decorator
-def slow_function():
-    for i in range(100000000):
-        i * i
-
-
-fast_function()
-slow_function()
+#
+# # end of lesson task:
+# import time
+# current_time = time.time()
+# # print(current_time)
+#
+# def speed_calc_decorator(function):
+#     def wrapper_function():
+#         start = time.time()
+#         function()
+#         end = time.time()
+#         print(f"{function.__name__} run time: {end-start}")
+#     return wrapper_function
+#
+# def delay_decorator(function):
+#     def wrapper_function():
+#         start = time.time()
+#         function()
+#         end = time.time()
+#         print(f"{function.__name__} run time: {end-start}")
+#     return wrapper_function
+#
+# @speed_calc_decorator
+# def fast_function():
+#     for i in range(10000000):
+#         i * i
+#
+# @speed_calc_decorator
+# def slow_function():
+#     for i in range(100000000):
+#         i * i
+#
+#
+# fast_function()
+# slow_function()
